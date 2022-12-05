@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.somebutton{
+  min-height: 50vh;
+  min-width: 50vh;
+}
