@@ -18,7 +18,7 @@ export function createData(
   return { name, runs, balls, sixes, fours };
 }
 
-interface RunsTableInput {
+export interface RunsTableInput {
 	name: string,
   runs: number,
   balls: number,
@@ -26,18 +26,17 @@ interface RunsTableInput {
   fours: number,
 } 
 
-export interface RunsTableInputList{
+interface RunsTableInputList{
   list : RunsTableInput[]
 }
 
 
 export default class RunsTable extends React.Component<RunsTableInputList,{}> {
 
-  abc() {
-    console.log("abc");
-  }
+  
 
   render() {
+    console.log("Rerendering")
     return <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

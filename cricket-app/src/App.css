@@ -37,7 +37,7 @@
   }
 }
 
-.somebutton{
-  min-height: 50vh;
-  min-width: 50vh;
+.register{
+  min-height:2vh;
+  min-width: 25vw;
 }

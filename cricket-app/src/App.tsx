@@ -1,22 +1,27 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import logo from './logo.svg';
 import ShoppingList from './model/shoppingList'
 import RunsTable from './model/runsTable'
 import './App.css';
-import {createData} from './model/runsTable'
+import {createData,RunsTableInput} from './model/runsTable'
 
-function add(runs:number, balls:number,sixes:number,fours:number) {
-  if (rows[rows.length-1].name !== "Ravindra Jadeja"){
-    rows.push(createData('Ravindra Jadeja',runs,balls,sixes,fours));
+function add(player:RunsTableInput) {
+  console.log(rows[rows.length-1]);
+  if (rows.at(rows.length-1)!.name !== player.name){
+    rows.push({
+      name:   player.name,
+      runs:   player.runs,
+      balls:  player.balls,
+      sixes:  player.sixes,
+      fours:  player.fours,
+    });
     return
   } 
 
-  rows[rows.length-1].runs = runs;
-  rows[rows.length-1].balls = balls;
-  rows[rows.length-1].sixes = sixes;
-  rows[rows.length-1].fours = fours;
-
-  console.log(rows);
+  rows[rows.length-1].runs  = player.runs;
+  rows[rows.length-1].balls = player.balls;
+  rows[rows.length-1].sixes = player.sixes;
+  rows[rows.length-1].fours = player.fours;
 }
 
 let rows = [
@@ -27,11 +32,25 @@ let rows = [
   createData('Suryakumar Yadav', 100, 44, 9, 4),
 ];
 
+let inputParam:RunsTableInput = {
+  name: "",
+  runs: 0,
+  balls: 0,
+  sixes: 0,
+  fours: 0,
+} ;
+
 function App() {
-  let runs:number=0;
-  let balls:number=0;
-  let sixes:number=0;
-  let fours:number=0;
+  
+  const [state, setState] = useState(0);
+
+  const updateRows = () => {
+    add(inputParam);
+
+    console.log(state);
+    setState(state+1)
+  }
+
   return (
     <div className="App">
       {/* <header className="App-header">
@@ -51,12 +70,13 @@ function App() {
       {/* <ShoppingList name='Gaurav' favourite='Yukta'/> */}
       {/* <ShoppingList name='Yukuta' favourite='Gaurav' /> */}
 
-      <input type="number" onChange={event => {runs = +event.target.value}}></input>
-      <input type="number" onChange={event => {balls = +event.target.value}}></input>
-      <input type="number" onChange={event => {sixes = +event.target.value}}></input>
-      <input type="number" onChange={event => {fours = +event.target.value}}></input>
-      <button className='somebutton' onClick={() => add(runs,balls,sixes,fours)}></button>
-      <RunsTable list={rows}></RunsTable>
+      <input type="text"    defaultValue={inputParam.name}  onChange={event => {inputParam.name = event.target.value}}></input>
+      <input type="number"  defaultValue={inputParam.runs}  onChange={event => {inputParam.runs = +event.target.value}}></input>
+      <input type="number"  defaultValue={inputParam.balls} onChange={event => {inputParam.balls = +event.target.value}}></input>
+      <input type="number"  defaultValue={inputParam.sixes} onChange={event => {inputParam.sixes = +event.target.value}}></input>
+      <input type="number"  defaultValue={inputParam.fours} onChange={event => {inputParam.fours = +event.target.value}}></input>
+      <button className='register' onClick={updateRows}></button>
+      <RunsTable list={rows} ></RunsTable>
     </div>
   );
 }
