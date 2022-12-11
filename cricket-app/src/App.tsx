@@ -6,6 +6,7 @@ import './App.css';
 import {createData,RunsTableInput} from './model/runsTable'
 import RenderScoring from './model/scoring'
 import { render } from '@testing-library/react';
+import team from './data/team.json'
 
 function add(player:RunsTableInput) {
   console.log(rows[rows.length-1]);
@@ -80,7 +81,7 @@ function App() {
       <input type="number"  defaultValue={inputParam.fours} onChange={event => {inputParam.fours = +event.target.value}}></input>
       <button className='register' onClick={updateRows}></button>
       <RunsTable list={rows} ></RunsTable>
-      <RenderScoring teamname = "India"></RenderScoring>
+      <RenderScoring teamname = "India" playing11={team.India.Playing11}></RenderScoring>
     </div>
   );
 }
