@@ -1,9 +1,11 @@
-import React,{ useState } from 'react';
+import * as React from 'react';
 import logo from './logo.svg';
 import ShoppingList from './model/shoppingList'
 import RunsTable from './model/runsTable'
 import './App.css';
 import {createData,RunsTableInput} from './model/runsTable'
+import RenderScoring from './model/scoring'
+import { render } from '@testing-library/react';
 
 function add(player:RunsTableInput) {
   console.log(rows[rows.length-1]);
@@ -14,6 +16,7 @@ function add(player:RunsTableInput) {
       balls:  player.balls,
       sixes:  player.sixes,
       fours:  player.fours,
+      strike: true,
     });
     return
   } 
@@ -24,12 +27,9 @@ function add(player:RunsTableInput) {
   rows[rows.length-1].fours = player.fours;
 }
 
-let rows = [
-  createData('Rohit Sharma', 110, 63, 2, 3),
-  createData('Virat Kohli', 5, 6, 0, 1),
-  createData('KL Rahul', 0, 1, 0, 0),
-  createData('Risabh Pant', 5, 6, 0, 0),
-  createData('Suryakumar Yadav', 100, 44, 9, 4),
+let rows:RunsTableInput[] = [
+  createData('Rohit Sharma',0, 0, 0, 0),
+  createData('KL Rahul', 0, 0, 0, 0),
 ];
 
 let inputParam:RunsTableInput = {
@@ -38,11 +38,12 @@ let inputParam:RunsTableInput = {
   balls: 0,
   sixes: 0,
   fours: 0,
+  strike:false
 } ;
 
 function App() {
   
-  const [state, setState] = useState(0);
+  const [state, setState] = React.useState(0);
 
   const updateRows = () => {
     add(inputParam);
@@ -50,6 +51,8 @@ function App() {
     console.log(state);
     setState(state+1)
   }
+
+  // const component = renderScoring("india");
 
   return (
     <div className="App">
@@ -77,6 +80,7 @@ function App() {
       <input type="number"  defaultValue={inputParam.fours} onChange={event => {inputParam.fours = +event.target.value}}></input>
       <button className='register' onClick={updateRows}></button>
       <RunsTable list={rows} ></RunsTable>
+      <RenderScoring teamname = "India"></RenderScoring>
     </div>
   );
 }

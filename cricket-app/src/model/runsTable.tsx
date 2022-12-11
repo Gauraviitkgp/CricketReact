@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { watch } from 'fs';
 
 export function createData(
   name: string,
@@ -15,7 +14,8 @@ export function createData(
   sixes: number,
   fours: number,
 ) {
-  return { name, runs, balls, sixes, fours };
+  let strike:boolean = true;
+  return { name, runs, balls, sixes, fours, strike };
 }
 
 export interface RunsTableInput {
@@ -24,6 +24,7 @@ export interface RunsTableInput {
   balls: number,
   sixes: number,
   fours: number,
+  strike: boolean
 } 
 
 interface RunsTableInputList{
@@ -32,11 +33,7 @@ interface RunsTableInputList{
 
 
 export default class RunsTable extends React.Component<RunsTableInputList,{}> {
-
-  
-
   render() {
-    console.log("Rerendering")
     return <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -65,6 +62,13 @@ export default class RunsTable extends React.Component<RunsTableInputList,{}> {
               <TableCell align="right">{(row.runs/row.balls*100).toFixed(2)}</TableCell>
             </TableRow>
           ))}
+          <TableRow><TableCell rowSpan={5}>Empty</TableCell></TableRow>
+          <TableRow>
+           <TableCell rowSpan={2}/>
+            {/* <TableCell rowSpan={1} /> */}
+            <TableCell>Total</TableCell>
+            <TableCell align="right">1</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

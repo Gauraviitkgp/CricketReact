@@ -1,0 +1,20 @@
+{
+    "India":{
+        "Abbreviation": "IND",
+        "Playing11": {
+            "Batsman":["Rohit Sharma", "KL Rahul", "Virat Kohli","Suryakumar Yadav"],
+            "WicketKeeper":["Risabh Pant"],
+            "All_Rounder":["Hardik Pandya","Ravindra Jadeja"],
+            "Bowler": ["Kuldeep Yadav","Md Shami","Jasprit Bumrah","Md Siraj"]
+        }
+    },
+    "Pakistan":{
+        "Abbreviation": "PAK",
+        "Playing11": {
+            "Batsman":["Babar Azam", "Azad Shafique", "Imam-ul-Haq","Shadab Shakeel","Iftikar Ahmad"],
+            "WicketKeeper":["Md. Rizwan"],
+            "All_Rounder":["Shadab Khan","Md Nawaz"],
+            "Bowler": ["Haris Rauf","Shaheen Afridi","Naseem Shah"]
+        }
+    }
+}
