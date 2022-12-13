@@ -1,0 +1,5 @@
+{
+    "Runs": [0,1,2,3,4,5,6],
+    "Wicket": ["Catch","Bowled","LBW"],
+    "Extra": ["Wide","No Ball", "Bye", "Leg Bye"]
+}
