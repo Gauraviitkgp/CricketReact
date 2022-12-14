@@ -9,10 +9,10 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { createTheme } from '@mui/material/styles';
+import Batting from "./player";
 
 let scorecard: RunsTableInput[] = [];
-let Player1: RunsTableInput, Player2: RunsTableInput;
+let Batters = new Batting();
 
 interface Iplaying11 {
 	Batsman: string[];
@@ -27,11 +27,9 @@ interface IActions {
 	Extra: string[];
 }
 
-function setBatsman(batsman: string, Player: RunsTableInput): RunsTableInput {
-	let newPlayer: RunsTableInput;
-
-	if (batsman !== Player1?.name && batsman !== Player2?.name) {
-		newPlayer = createData(batsman, 0, 0, 0, 0);
+function newBatter(batsman: string, Player: RunsTableInput): RunsTableInput {
+	if (!Batters.existsByName(batsman)) {
+		let newPlayer = createData(batsman, 0, 0, 0, 0);
 		scorecard.push(newPlayer);
 		Player = newPlayer;
 	}
@@ -68,7 +66,7 @@ function DropDownSelect(props: {
 				onChange={props.handleBatsmanValChange}
 				autoWidth
 				disabled={props.disabled}
-				className = {colorStyle}
+				className={colorStyle}
 			>
 				{props.players.map((player) => (
 					<MenuItem value={player} sx={{ textAlign: "left" }}>
@@ -95,24 +93,26 @@ export default function RenderScoring(props: {
 	const [batsman1, setPlayer1] = React.useState("");
 	const handlePlayer1Change = (event: SelectChangeEvent) => {
 		setPlayer1(event.target.value as string);
-		Player1 = setBatsman(event.target.value as string, Player1);
+		Batters.setBatsman1(
+			newBatter(event.target.value as string, Batters.Batsman1)
+		);
 	};
 
 	const [batsman2, setPlayer2] = React.useState("");
 	const handlePlayer2Change = (event: SelectChangeEvent) => {
 		setPlayer2(event.target.value as string);
-		Player2 = setBatsman(event.target.value as string, Player2);
-		if (Player1?.strike && Player2?.strike) {
-			Player2.strike = false;
-		}
+		Batters.setBatsman2(
+			newBatter(event.target.value as string, Batters.Batsman2)
+		);
 	};
 
 	const [isOutBall, setOut] = React.useState(true);
 	const handleOut = (event: React.MouseEvent<HTMLElement>) => {
-		if (Player1 === undefined || Player2 === undefined) {
+		if (!Batters.valid()) {
 			console.log("Numbers not correct");
 			return;
 		}
+
 		setOut(false);
 	};
 
@@ -122,57 +122,34 @@ export default function RenderScoring(props: {
 	};
 
 	const handleRun = (runs: number) => {
-		if (Player1 === undefined || Player2 === undefined) {
+		if (!Batters.valid()) {
 			console.log("Numbers not correct");
 			return;
 		}
 
-		let player = Player1;
-
-		if (Player2.strike) {
-			player = Player2;
-		}
-
-		player.runs += runs;
-		player.balls += 1;
-		if (runs === 4) {
-			player.fours += 1;
-		} else if (runs === 6) {
-			player.sixes += 1;
-		}
+		Batters.addRuns(runs);
 
 		setIsBatsman1Disabled(true);
 		setIsBatsman2Disabled(true);
 
 		setTotalBalls(totalBalls + 1);
 		setTotalRuns(totalRuns + runs);
-		if (runs%2 === 1){ //odd number of runs
-			Player1.strike = !Player1.strike;
-			Player2.strike = !Player2.strike;
-		}		
-		if( totalBalls%6 === 5) {
-			Player1.strike = !Player1.strike;
-			Player2.strike = !Player2.strike;
+		if (totalBalls % 6 === 5) {
+			Batters.rotateStrike();
 		}
 	};
 
 	const handleOutDecision = (event: SelectChangeEvent) => {
-		if (Player1 === undefined || Player2 === undefined) {
-			console.log("Numbers not correct");
-			return;
-		}
-
 		handleRun(0);
 		setOut(true);
-		if (Player1.strike) {
-			Player1.howout = event.target.value as string;
-			Player1.strike = false;
-			setIsBatsman1Disabled(false);
-		} else if (Player2.strike) {
-			Player2.howout = event.target.value as string;
-			Player2.strike = false;
+
+		if (Batters.onStrike() !== Batters.Batsman1) {
 			setIsBatsman2Disabled(false);
+		} else {
+			setIsBatsman1Disabled(false);
 		}
+
+		Batters.batterOut(event.target.value as string);
 	};
 
 	return (
@@ -183,20 +160,35 @@ export default function RenderScoring(props: {
 					id="Batsman1"
 					batsmanVal={batsman1}
 					handleBatsmanValChange={handlePlayer1Change}
-					players={props.playing11.Batsman.concat(props.playing11.WicketKeeper).concat(props.playing11.All_Rounder).concat(props.playing11.Bowler)}
+					players={props.playing11.Batsman.concat(
+						props.playing11.WicketKeeper
+					)
+						.concat(props.playing11.All_Rounder)
+						.concat(props.playing11.Bowler)}
 					disabled={isBatsman1Disabled}
 				></DropDownSelect>
 				<DropDownSelect
 					id="Batsman2"
 					batsmanVal={batsman2}
 					handleBatsmanValChange={handlePlayer2Change}
-					players={props.playing11.Batsman.concat(props.playing11.WicketKeeper).concat(props.playing11.All_Rounder).concat(props.playing11.Bowler)}
+					players={props.playing11.Batsman.concat(
+						props.playing11.WicketKeeper
+					)
+						.concat(props.playing11.All_Rounder)
+						.concat(props.playing11.Bowler)}
 					disabled={isBatsman2Disabled}
 				></DropDownSelect>
 			</div>
 			<Stack spacing={1} direction="row">
 				{props.actions.Runs.map((run) => (
-					<Button variant="contained" onClick={()=>{handleRun(run)}}>{run.toString()}</Button>
+					<Button
+						variant="contained"
+						onClick={() => {
+							handleRun(run);
+						}}
+					>
+						{run.toString()}
+					</Button>
 				))}
 
 				<Button variant="contained" onClick={handleOut}>
@@ -204,7 +196,7 @@ export default function RenderScoring(props: {
 				</Button>
 				<DropDownSelect
 					id="Out"
-					batsmanVal=''
+					batsmanVal=""
 					handleBatsmanValChange={handleOutDecision}
 					players={props.actions.Wicket}
 					disabled={isOutBall}
