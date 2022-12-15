@@ -89,6 +89,11 @@ export default function RenderScoring(props: {
 	const [isBatsman2Disabled, setIsBatsman2Disabled] = React.useState(false);
 	const [totalRuns, setTotalRuns] = React.useState(0);
 	const [totalBalls, setTotalBalls] = React.useState(0);
+	const [availablePlayers, setAvailablePlayers] = React.useState(
+		props.playing11.Batsman.concat(props.playing11.WicketKeeper)
+			.concat(props.playing11.All_Rounder)
+			.concat(props.playing11.Bowler)
+	);
 
 	const [batsman1, setPlayer1] = React.useState("");
 	const handlePlayer1Change = (event: SelectChangeEvent) => {
@@ -148,7 +153,8 @@ export default function RenderScoring(props: {
 		} else {
 			setIsBatsman1Disabled(false);
 		}
-
+		availablePlayers.splice(availablePlayers.indexOf(Batters.onStrike().name),1);
+		setAvailablePlayers(availablePlayers);
 		Batters.batterOut(event.target.value as string);
 	};
 
@@ -160,22 +166,14 @@ export default function RenderScoring(props: {
 					id="Batsman1"
 					batsmanVal={batsman1}
 					handleBatsmanValChange={handlePlayer1Change}
-					players={props.playing11.Batsman.concat(
-						props.playing11.WicketKeeper
-					)
-						.concat(props.playing11.All_Rounder)
-						.concat(props.playing11.Bowler)}
+					players={availablePlayers}
 					disabled={isBatsman1Disabled}
 				></DropDownSelect>
 				<DropDownSelect
 					id="Batsman2"
 					batsmanVal={batsman2}
 					handleBatsmanValChange={handlePlayer2Change}
-					players={props.playing11.Batsman.concat(
-						props.playing11.WicketKeeper
-					)
-						.concat(props.playing11.All_Rounder)
-						.concat(props.playing11.Bowler)}
+					players={availablePlayers}
 					disabled={isBatsman2Disabled}
 				></DropDownSelect>
 			</div>
