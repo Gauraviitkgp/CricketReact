@@ -111,14 +111,14 @@ export default function RenderScoring(props: {
 		);
 	};
 
-	const [isOutBall, setOut] = React.useState(true);
+	const [isOutBall, setOut] = React.useState(false);
 	const handleOut = (event: React.MouseEvent<HTMLElement>) => {
 		if (!Batters.valid()) {
 			console.log("Numbers not correct");
 			return;
 		}
 
-		setOut(false);
+		setOut(true);
 	};
 
 	const [isExtraBall, setExtra] = React.useState(true);
@@ -139,24 +139,33 @@ export default function RenderScoring(props: {
 
 		setTotalBalls(totalBalls + 1);
 		setTotalRuns(totalRuns + runs);
-		if (totalBalls % 6 === 5) {
+		if (totalBalls % 6 === 5 && !isOutBall) {
 			Batters.rotateStrike();
 		}
 	};
 
 	const handleOutDecision = (event: SelectChangeEvent) => {
 		handleRun(0);
-		setOut(true);
 
 		if (Batters.onStrike() !== Batters.Batsman1) {
 			setIsBatsman2Disabled(false);
 		} else {
 			setIsBatsman1Disabled(false);
 		}
-		availablePlayers.splice(availablePlayers.indexOf(Batters.onStrike().name),1);
+		availablePlayers.splice(
+			availablePlayers.indexOf(Batters.onStrike().name),
+			1
+		);
 		setAvailablePlayers(availablePlayers);
 		Batters.batterOut(event.target.value as string);
+
+		setOut(false);
 	};
+
+	let wickets = 11 - availablePlayers.length;
+	React.useEffect(() => {
+		document.title = `India ${totalRuns}/${wickets} Runs`;
+	});
 
 	return (
 		<>
@@ -197,7 +206,7 @@ export default function RenderScoring(props: {
 					batsmanVal=""
 					handleBatsmanValChange={handleOutDecision}
 					players={props.actions.Wicket}
-					disabled={isOutBall}
+					disabled={!isOutBall}
 				></DropDownSelect>
 				<Button variant="contained" onClick={handleExtra}>
 					Extra
@@ -210,7 +219,12 @@ export default function RenderScoring(props: {
 					disabled={isExtraBall}
 				></DropDownSelect>
 			</Stack>
-			<RunsTable list={scorecard}></RunsTable>
+			<RunsTable
+				list={scorecard}
+				totalRun={totalRuns}
+				wicket={wickets}
+				overs={Math.trunc(totalBalls / 6) + "." + (totalBalls % 6)}
+			></RunsTable>
 		</>
 	);
 }

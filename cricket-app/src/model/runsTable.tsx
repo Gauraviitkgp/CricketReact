@@ -33,6 +33,9 @@ export interface RunsTableInput {
 
 interface RunsTableInputList {
 	list: RunsTableInput[];
+	totalRun: number;
+	wicket: number;
+	overs: string;
 }
 
 function checkNotOut(no: string): string {
@@ -45,13 +48,13 @@ function checkNotOut(no: string): string {
 
 export default class RunsTable extends React.Component<RunsTableInputList, {}> {
 	render() {
-		let isStrike = (strike:boolean) => {
-			if (strike){
-				return "*"
+		let isStrike = (strike: boolean) => {
+			if (strike) {
+				return "*";
 			}
 
-			return ""
-		}
+			return "";
+		};
 
 		return (
 			<TableContainer component={Paper}>
@@ -79,7 +82,8 @@ export default class RunsTable extends React.Component<RunsTableInputList, {}> {
 								}}
 							>
 								<TableCell component="th" scope="row">
-									{row.name}{isStrike(row.strike)}
+									{row.name}
+									{isStrike(row.strike)}
 								</TableCell>
 								<TableCell align="left">{row.howout}</TableCell>
 								<TableCell align="right">{row.runs}</TableCell>
@@ -91,14 +95,26 @@ export default class RunsTable extends React.Component<RunsTableInputList, {}> {
 								</TableCell>
 							</TableRow>
 						))}
-						<TableRow>
-							<TableCell rowSpan={5}>Empty</TableCell>
-						</TableRow>
-						<TableRow>
+						<TableRow sx={{ backgroundColor: "wheat" }}>
 							<TableCell rowSpan={2} />
 							{/* <TableCell rowSpan={1} /> */}
-							<TableCell>Total</TableCell>
-							<TableCell align="right">1</TableCell>
+							<TableCell
+								sx={{ fontWeight: "bold", fontSize: 28 }}
+							>
+								Total
+							</TableCell>
+							<TableCell
+								align="right"
+								sx={{ fontWeight: "bold", fontSize: 28 }}
+							>
+								{this.props.totalRun}/{this.props.wicket}
+							</TableCell>
+							<TableCell
+								align="right"
+								sx={{ fontWeight: "bold", fontSize: 28 }}
+							>
+								{this.props.overs}
+							</TableCell>
 						</TableRow>
 					</TableBody>
 				</Table>

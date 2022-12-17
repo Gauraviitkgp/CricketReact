@@ -112,7 +112,7 @@ function App() {
 				}}
 			></input>
 			<button className="register" onClick={updateRows}></button>
-			<RunsTable list={rows}></RunsTable>
+			{/* <RunsTable list={rows}></RunsTable> */}
 			<RenderScoring
 				teamname="India"
 				playing11={team.India.Playing11}
