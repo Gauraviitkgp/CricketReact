@@ -31,39 +31,38 @@ const options = {
 async function getPlayerID(name: string): Promise<PlayerNames> {
 	const url = config.base_url + "player/search?plrN=" + name;
 
-	return new Promise((resolve,reject)=> {
-		setTimeout(()=>{  fetch(url, options)
-		.then((res) => res.json())
-		.then((json) => {
-			resolve(json);
-		})
-		.catch((err) => reject("error:" + err))},2000);
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			fetch(url, options)
+				.then((res) => res.json())
+				.then((json) => {
+					resolve(json);
+				})
+				.catch((err) => reject("error:" + err));
+		}, 2000);
 	});
 }
 
 async function getPlayerData(params: string): Promise<PlayerData> {
 	const url = config.base_url + "player/" + params + "/batting";
 
-	return new Promise((resolve,reject)=> {
-		setTimeout(()=>{ fetch(url, options)
-		.then((res) => res.json())
-		.then((json) => {
-			resolve(json);
-		})
-		.catch((err) => reject("error:" + err))},2000);
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			fetch(url, options)
+				.then((res) => res.json())
+				.then((json) => {
+					resolve(json);
+				})
+				.catch((err) => reject("error:" + err));
+		}, 2000);
 	});
 }
 
 function App(props: { playerName: string[] }) {
-	// const [playerID, setPlayerID] = React.useState<string>("");
-
 	const [data, setData] = React.useState<PlayerData>({
 		headers: [],
 		values: [{ values: [] }],
 	});
-
-
-	// getPlayerData(props.playerName[0])
 
 
 	getPlayerID(props.playerName[0])
