@@ -39,7 +39,7 @@ function newBatter(batsman: string, Player: RunsTableInput): RunsTableInput {
 
 function DropDownSelect(props: {
 	id: string;
-	batsmanVal: string;
+	initialVal: string;
 	handleBatsmanValChange: (event: SelectChangeEvent) => void;
 	players: string[];
 	disabled: boolean;
@@ -61,7 +61,7 @@ function DropDownSelect(props: {
 			<Select
 				labelId={props.id}
 				id={labelID}
-				value={props.batsmanVal}
+				value={props.initialVal}
 				label={labelVal}
 				onChange={props.handleBatsmanValChange}
 				autoWidth
@@ -173,14 +173,14 @@ export default function RenderScoring(props: {
 			<div className="something">
 				<DropDownSelect
 					id="Batsman1"
-					batsmanVal={batsman1}
+					initialVal={batsman1}
 					handleBatsmanValChange={handlePlayer1Change}
 					players={availablePlayers}
 					disabled={isBatsman1Disabled}
 				></DropDownSelect>
 				<DropDownSelect
 					id="Batsman2"
-					batsmanVal={batsman2}
+					initialVal={batsman2}
 					handleBatsmanValChange={handlePlayer2Change}
 					players={availablePlayers}
 					disabled={isBatsman2Disabled}
@@ -203,7 +203,7 @@ export default function RenderScoring(props: {
 				</Button>
 				<DropDownSelect
 					id="Out"
-					batsmanVal=""
+					initialVal=""
 					handleBatsmanValChange={handleOutDecision}
 					players={props.actions.Wicket}
 					disabled={!isOutBall}
@@ -213,7 +213,7 @@ export default function RenderScoring(props: {
 				</Button>
 				<DropDownSelect
 					id="Extra"
-					batsmanVal={props.actions.Extra[0]}
+					initialVal={props.actions.Extra[0]}
 					handleBatsmanValChange={handlePlayer1Change}
 					players={props.actions.Extra}
 					disabled={isExtraBall}
