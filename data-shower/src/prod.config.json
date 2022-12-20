@@ -1,0 +1,7 @@
+{
+    "type": "prod",
+    "base_url": "https://cricbuzz-cricket.p.rapidapi.com/stats/v1/",
+    "rapid_api_key": "351554666bmshb772d68ca3a8806p1c680bjsn2ef65bb2b54a",
+    "X_RapidAPI_Host": "cricbuzz-cricket.p.rapidapi.com",
+    "defaultTimeOut": 2000
+}

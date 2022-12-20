@@ -1,0 +1,7 @@
+{
+    "type": "test",
+    "base_url": "https://6b43e863-fc22-4a66-9136-02ef08f4f20b.mock.pstmn.io/",
+    "rapid_api_key": "351554666bmshb772d68ca3a8806p1c680bjsn2ef65bb2b54a",
+    "X_RapidAPI_Host": "cricbuzz-cricket.p.rapidapi.com",
+    "defaultTimeOut": 2000
+}

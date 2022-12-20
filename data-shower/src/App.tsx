@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import config from "./config.json";
+import config from "./local.config.json";
 import DataTable from "./model/table";
 
 interface PlayerName {
@@ -31,53 +31,56 @@ const options = {
 async function getPlayerID(name: string): Promise<PlayerNames> {
 	const url = config.base_url + "player/search?plrN=" + name;
 
-	return new Promise((resolve, reject) => {
+	console.log(url);
+
+	return await new Promise((resolve, reject) => {
 		setTimeout(() => {
 			fetch(url, options)
-				.then((res) => res.json())
-				.then((json) => {
-					resolve(json);
-				})
+				.then((res) => resolve(res.json()))
 				.catch((err) => reject("error:" + err));
-		}, 2000);
+		}, config.defaultTimeOut);
 	});
 }
 
 async function getPlayerData(params: string): Promise<PlayerData> {
 	const url = config.base_url + "player/" + params + "/batting";
 
-	return new Promise((resolve, reject) => {
+	return await new Promise((resolve, reject) => {
 		setTimeout(() => {
 			fetch(url, options)
-				.then((res) => res.json())
-				.then((json) => {
-					resolve(json);
-				})
+				.then((res) => resolve(res.json()))
 				.catch((err) => reject("error:" + err));
-		}, 2000);
+		}, config.defaultTimeOut);
 	});
 }
 
 function App(props: { playerName: string[] }) {
-	const [data, setData] = React.useState<PlayerData>({
-		headers: [],
-		values: [{ values: [] }],
-	});
+	// const [data, setData] = React.useState<PlayerData>({
+	// 	headers: [],
+	// 	values: [{ values: [] }],
+	// });
 
-
-	getPlayerID(props.playerName[0])
-		.then((players) => {
-			getPlayerData(players.player[0].id)
-				.then((data) => {
-					setData(data);
-				})
-				.catch((err) => {
-					console.log("Some error occured:" + err);
-				});
-		})
-		.catch((err) => {
-			console.log("Some error occured:" + err);
-		});
+	let data:PlayerData = {
+			headers: [],
+			values: [{ values: [] }],
+		};
+		
+	getPlayerID(props.playerName[0]);
+	getPlayerData("1413");
+	// getPlayerID(props.playerName[0])
+	// 	.then((players) => {
+	// 		getPlayerData(players.player[0].id)
+	// 			.then((data1) => {
+	// 				// setData(data);
+	// 				data = data1;
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log("Some error occured:" + err);
+	// 			});
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log("Some error occured:" + err);
+	// 	});
 
 	return (
 		<div className="App">
