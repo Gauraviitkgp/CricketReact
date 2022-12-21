@@ -1,4 +1,4 @@
-import config from "../local.config.json";
+import config from "../prod.config.json";
 
 export interface PlayerData {
 	headers: string[];

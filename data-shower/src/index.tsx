@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App playerName={["Virat"]} />
+    <App playerName={["Virat Kohli", "Sachin Tendulkar", "Rohit Sharma"]} />
   </React.StrictMode>
 );
 
