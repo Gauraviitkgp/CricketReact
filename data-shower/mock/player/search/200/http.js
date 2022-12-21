@@ -1,6 +1,6 @@
 module.exports = {
     status: 200,
-    // delay: 2,
+    delay: 2,
     header: { // http response header
         'Content-Type': 'application/json; charset=UTF-8',
         Connection: 'Close',
