@@ -22,9 +22,9 @@
     "start": "react-scripts start",
     "start:webpack": "webpack serve --open --mode development",
     "build": "react-scripts build",
+    "build:webpack": "webpack",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lite": "webpack"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
