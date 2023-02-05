@@ -8,6 +8,8 @@ import RenderScoring from "./model/scoring";
 import { render } from "@testing-library/react";
 import team from "./data/team.json";
 import actions from "./data/possible_actions.json";
+import ShowerDataType from "../../data-shower/src/App"
+const Shower = React.lazy(() => import('datashower/Shower')) as unknown as typeof ShowerDataType;
 
 function add(player: RunsTableInput) {
 	console.log(rows[rows.length - 1]);
@@ -118,6 +120,7 @@ function App() {
 				playing11={team.India.Playing11}
 				actions={actions}
 			></RenderScoring>
+			<Shower playerName={["Virat Kohli", "Sachin Tendulkar", "Rohit Sharma"]}></Shower>
 		</div>
 	);
 }
