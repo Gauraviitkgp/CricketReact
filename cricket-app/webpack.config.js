@@ -18,7 +18,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.tsx?$/,
+				test: /\.(ts|tsx)$/,
 				use: "ts-loader",
 				exclude: /node_modules/,
 			},
@@ -39,7 +39,7 @@ module.exports = {
 		new ModuleFederationPlugin({
 			name: "cricketApp",
 			remotes: {
-                datashower:"datashower@http://localhost:3001/remoteEntry.js"
+                datashower:'datashower'
             },
 			shared: {
 				// ...deps,
@@ -47,13 +47,11 @@ module.exports = {
 					singleton: true,
 					eager:true,
 					requiredVersion: deps.react,
-					strictVersion: true,
 				},
 				"react-dom": {
 					singleton: true,
 					eager:true,
 					requiredVersion: deps["react-dom"],
-					strictVersion: true,
 				},
 			},
 		}),

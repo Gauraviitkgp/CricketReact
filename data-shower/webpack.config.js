@@ -46,13 +46,15 @@ module.exports = {
 				"./Shower": "./src/App.tsx",
 			},
 			shared: {
-				...deps,
+				// ...deps,
 				react: {
 					singleton: true,
+					eager:true,
 					requiredVersion: deps.react,
 				},
 				"react-dom": {
 					singleton: true,
+					eager:true,
 					requiredVersion: deps["react-dom"],
 				},
 			},
